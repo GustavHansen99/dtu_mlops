@@ -1,0 +1,5 @@
+outs:
+- md5: 1db3733a59b34c1c8a498c280a40c810.dir
+  size: 94202301
+  nfiles: 3
+  path: corruptmnist_v2
