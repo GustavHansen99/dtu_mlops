@@ -136,3 +136,6 @@ FashionMNIST/
 
 # vs code
 .vscode/settings.json
+
+# DS store
+*.DS_Store
