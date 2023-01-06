@@ -14,4 +14,4 @@ COPY data/ data/
 WORKDIR /
 RUN pip install -r requirements.txt --no-cache-dir
 
-ENTRYPOINT ["python", "-u", "src/models/main.py",  "train"]
+ENTRYPOINT ["python", "-u", "src/models/main.py",  "evaluate", "--load_model_from "]
