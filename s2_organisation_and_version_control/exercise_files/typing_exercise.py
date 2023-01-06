@@ -25,13 +25,8 @@ class Network(nn.Module):
         self.output = nn.Linear(hidden_layers[-1], output_size)
 
         self.dropout = nn.Dropout(p=drop_p)
-<<<<<<< HEAD
         
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-=======
-
-    def forward(self, x):
->>>>>>> upstream/main
         ''' Forward pass through the network, returns the output logits '''
 
         for each in self.hidden_layers:
