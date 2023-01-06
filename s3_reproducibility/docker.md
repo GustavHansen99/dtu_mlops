@@ -92,14 +92,15 @@ not focusing on for these exercises.
 
 If you are using `VScode` then we recommend install the
 [docker VScode extension](https://code.visualstudio.com/docs/containers/overview) for easy getting an overview of
-which images have been build and which are running. Additionally the extension named *Remote - Containers* may also be
+which images have been build and which are running. Additionally the extension named *Dev Containers* may also be
 beneficial for you to download.
 
 1. Start by [installing docker](https://docs.docker.com/get-docker/). How much trouble that you need to go through
    depends on your operating system. For Windows and Mac we recommend they install *Docker desktop*, which comes with
    a graphical user interface (GUI) for quickly viewing docker images and docker containers currently build/in-use.
    Windows users that have not installed WSL yet are going to have to do it now (as docker need it as backend for
-   starting virtual machines) but you do not need to install docker in WSL.
+   starting virtual machines) but you do not need to install docker in WSL. After installing docker we recommend that
+   you restart you laptop.
 
 2. Try running the following to confirm that your installation is working:
 
@@ -250,8 +251,7 @@ beneficial for you to download.
     </p>
 
 14. Try running `docker images` and confirm that you get output similar to the one above. If you succeeds with this,
-    then try running the image
-    docker image
+    then try running the docker image
 
     ```bash
     docker run --name experiment1 trainer:latest
@@ -260,7 +260,14 @@ beneficial for you to download.
     you should hopefully see your training starting. Please note that we can start as many containers that we want at
     the same time by giving them all different names using the `--name` tag.
 
-15. When your training has completed you will notice that any files that is created when running your training script is
+15. Remember, if you ever are in doubt how files are organized inside a docker image you always have the option to start
+    the image in interactive mode:
+
+    ```bash
+    docker run -it --entrypoint sh {image_name}:{image_name}
+    ```
+
+16. When your training has completed you will notice that any files that is created when running your training script is
     not present on your laptop (for example if your script is saving the trained model to file). This is because the
     files were created inside your container (which is its own little machine). To get the files you have two options:
 
@@ -294,13 +301,6 @@ beneficial for you to download.
        the next exercise first). Also note that the `%cd%` need to change depending on your OS, see this
        [page](https://stackoverflow.com/questions/41485217/mount-current-directory-as-a-volume-in-docker-on-windows-10)
        for help.
-
-16. Remember, if you ever are in doubt how files are organized inside a docker image you always have the option to start
-    the image in interactive mode:
-
-    ```bash
-    docker run -it --entrypoint sh {image_name}:{image_name}
-    ```
 
 17. With training done we also need to write an application for prediction. Create a new docker image called
     `predict.dockerfile`. This file should call your `src/models/predict_model.py` script instead. This image will
@@ -397,7 +397,10 @@ beneficial for you to download.
        try doing this to one of your docker files, build the image and run the container. Remember to check that your
        application is using GPU by printing `torch.cuda.is_available()`.
 
-The covers the absolute minimum you should know about docker to get a working image and container.
-That said, if you are actively going to be using docker in the near future, one thing to consider
-is the image size. Even these simple images that we have build still takes up GB in size. A number
-of optimizations steps can be taken to reduce the image size for you or your end user.
+The covers the absolute minimum you should know about docker to get a working image and container. That said, if you are
+actively going to be using docker in the near future, one thing to consider is the image size. Even these simple images
+that we have build still takes up GB in size. A number of optimizations steps can be taken to reduce the image size for
+you or your end user. If you have time you can read [this article](https://devopscube.com/reduce-docker-image-size/) on
+different approaches to reduce image size. Additionally, you can take a look at the
+[dive-in extension](https://www.docker.com/blog/reduce-your-image-size-with-the-dive-in-docker-extension/) for docker
+desktop that lets you explore in depth your docker images.
