@@ -1,0 +1,36 @@
+{
+    "os": "macOS-13.1-arm64-arm-64bit",
+    "python": "3.10.8",
+    "heartbeatAt": "2023-01-08T18:50:40.704419",
+    "startedAt": "2023-01-08T18:50:39.737480",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "train"
+    ],
+    "state": "running",
+    "program": "/Users/Gustav/Desktop/DesktopV00183/DTU/1st/MLOps.nosync/dtu_mlops/src/models/main.py",
+    "codePath": "src/models/main.py",
+    "git": {
+        "remote": "git@github.com:GustavHansen99/dtu_mlops.git",
+        "commit": "9f34faa9a23c787388b02592f4707484a3d30785"
+    },
+    "email": "gustav5hansen5@gmail.com",
+    "root": "/Users/Gustav/Desktop/DesktopV00183/DTU/1st/MLOps.nosync/dtu_mlops",
+    "host": "V00180.local",
+    "username": "Gustav",
+    "executable": "/Users/Gustav/miniconda3/envs/MLOps_s1/bin/python",
+    "cpu_count": 8,
+    "cpu_count_logical": 8,
+    "disk": {
+        "total": 460.4317207336426,
+        "used": 8.260887145996094
+    },
+    "gpuapple": {
+        "type": "arm",
+        "vendor": "Apple"
+    },
+    "memory": {
+        "total": 16.0
+    }
+}

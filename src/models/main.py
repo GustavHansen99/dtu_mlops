@@ -5,6 +5,9 @@ import torch
 
 from data import CorruptMnist
 from model import MyAwesomeModel
+from pytorch_lightning import Trainer
+from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning import loggers as pl_loggers
 
 import matplotlib.pyplot as plt
 import wandb
@@ -14,7 +17,7 @@ class TrainOREvaluate(object):
         from a single script
     """
     def __init__(self):
-        wandb.init(project='mlops_exercises4')
+        #wandb.init(project='mlops_exercises4')
         parser = argparse.ArgumentParser(
             description="Script for either training or evaluating",
             usage="python main.py <command>"
@@ -41,13 +44,23 @@ class TrainOREvaluate(object):
         print(args)
         
         # TODO: Implement training loop here
-        model = MyAwesomeModel()
+        model = MyAwesomeModel()  # this is our LightningModule
         model = model.to(self.device)
         train_set = CorruptMnist(train=True)
-        dataloader = torch.utils.data.DataLoader(train_set, batch_size=128)
+        train_dataloader = torch.utils.data.DataLoader(train_set, batch_size=128)
+        val_dataloader = torch.utils.data.DataLoader(train_set, batch_size=128)
+
+        checkpoint_callback = ModelCheckpoint(
+            dirpath="src/models/checkpoints/", monitor="val_loss", mode="min"
+            )
+        trainer = Trainer(callbacks=[checkpoint_callback], max_epochs=5, logger=pl_loggers.WandbLogger(project="mlops_exercises4"))
+        trainer.fit(model, train_dataloader, val_dataloader)
+        #trainer.validate(model, val_dataloader)
+        """
         optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
         criterion = torch.nn.CrossEntropyLoss()
         
+
         n_epoch = 5
         columns=["index", "image", "guess", "truth"]
         test_dt = wandb.Table(columns = columns)
@@ -78,8 +91,9 @@ class TrainOREvaluate(object):
         plt.xlabel('Training step')
         plt.ylabel('Training loss')
         plt.savefig("src/visualization/training_curve.png")
+        """
         
-        return model
+        return None
             
     def evaluate(self):
         print("Evaluating until hitting the ceiling")
