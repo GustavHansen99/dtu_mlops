@@ -7,12 +7,14 @@ from data import CorruptMnist
 from model import MyAwesomeModel
 
 import matplotlib.pyplot as plt
+import wandb
 
 class TrainOREvaluate(object):
     """ Helper class that will help launch class methods as commands
         from a single script
     """
     def __init__(self):
+        wandb.init(project='mlops_exercises4')
         parser = argparse.ArgumentParser(
             description="Script for either training or evaluating",
             usage="python main.py <command>"
@@ -47,8 +49,11 @@ class TrainOREvaluate(object):
         criterion = torch.nn.CrossEntropyLoss()
         
         n_epoch = 5
+        columns=["index", "image", "guess", "truth"]
+        test_dt = wandb.Table(columns = columns)
         for epoch in range(n_epoch):
             loss_tracker = []
+            counter = 0
             for batch in dataloader:
                 optimizer.zero_grad()
                 x, y = batch
@@ -56,14 +61,23 @@ class TrainOREvaluate(object):
                 loss = criterion(preds, y.to(self.device))
                 loss.backward()
                 optimizer.step()
+                wandb.log({"loss": loss})
                 loss_tracker.append(loss.item())
+                # log training progress in terms of preds and images
+                if counter % 50 == 0:
+                    preds = preds.argmax(dim=-1)
+                    for idx, image in enumerate(x):
+                        row = [idx, wandb.Image(image), preds[idx], y[idx]]
+                        test_dt.add_data(*row)
+                counter += 1
             print(f"Epoch {epoch+1}/{n_epoch}. Loss: {loss}")        
-        torch.save(model.state_dict(), '/models/trained_model.pt')
+        wandb.log({"mnist_predictions": test_dt})
+        torch.save(model.state_dict(), 'src/models/trained_model.pt')
             
         plt.plot(loss_tracker, '-')
         plt.xlabel('Training step')
         plt.ylabel('Training loss')
-        plt.savefig("/models/training_curve.png")
+        plt.savefig("src/visualization/training_curve.png")
         
         return model
             
