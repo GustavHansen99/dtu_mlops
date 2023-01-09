@@ -2,7 +2,7 @@ name: "Run tests"
 
 on:
   push:
-    branches: [ master, main, exercise_s5]
+    branches: [ master, main ]
   pull_request:
     branches: [ master, main ]
 
