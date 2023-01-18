@@ -103,7 +103,7 @@ services for packaging and serving multiple Pytorch at the same time.
 </p>
 <!-- markdownlint-restore -->
 
-Before we go into details of Torchserve , an important question is why we need such an abstraction on top of our
+Before we go into details of Torchserve, an important question is why we need such an abstraction on top of our
 developed model. Why cant we just do:
 
 ```bash
